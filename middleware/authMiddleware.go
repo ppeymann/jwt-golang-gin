@@ -12,13 +12,13 @@ func Authenticate() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		clientToken := ctx.Request.Header.Get("token")
 		if clientToken == ""{
-			ctx.JSON(http.StatusInternalServerError,gin.H{"err!":fmt.Sprintf("Err")})
+			ctx.JSON(http.StatusUnauthorized,gin.H{"err!":fmt.Sprintf("Err")})
 			ctx.Abort()
 			return
 		}
 		claims, err := helpers.ValidateToken(clientToken)
 		if err != "" {
-			ctx.JSON(http.StatusInternalServerError,gin.H{"err":err})
+			ctx.JSON(http.StatusUnauthorized,gin.H{"err":err})
 			ctx.Abort()
 			return
 		}
